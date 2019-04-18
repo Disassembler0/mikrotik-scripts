@@ -1,4 +1,22 @@
 #!/bin/sh
 
-scp -i /opt/vpn/vpn-ssh-key /opt/vpn/vpn.example.com/fullchain.cer admin@192.168.88.1:/vpn.pem
-scp -i /opt/vpn/vpn-ssh-key /opt/vpn/vpn.example.com/vpn.example.com.key admin@192.168.88.1:/vpn.key
+HOST=vpn.example.com
+MTUSER=admin
+MTADDR=192.168.88.1
+
+scp /etc/acme-sh/${HOST}/fullchain.cer ${MTUSER}@${MTADDR}:/${HOST}.pem
+scp /etc/acme-sh/${HOST}/${HOST}.key ${MTUSER}@${MTADDR}:/${HOST}.key
+
+ssh -T ${MTUSER}@${MTADDR} <<EOF >/dev/null
+/certificate remove [find common-name="${HOST}"]
+/certificate import file-name="${HOST}.pem" passphrase=""
+/certificate import file-name="${HOST}.key" passphrase=""
+
+/file remove "${HOST}.pem"
+/file remove "${HOST}.key"
+
+# Reset SSTP certificate and prevent "cert hash not matching" errors
+/interface sstp-server server set certificate=none
+:delay 1
+/interface sstp-server server set certificate="${HOST}.pem_0"
+EOF
