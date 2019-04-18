@@ -16,5 +16,14 @@ Filtering incoming and outgoing IPv4 traffic. Lots of ports in outgoing rules al
 ### Malware
 Additional filtering for malware IPs obtained from publicly available blacklists.
 
+### MTU
+Just a small mangle script for smooth packet forwarding between networks with different MTU lengths.
+
+### Restrict country
+Filtering based on country IP blocks.
+
 ### SSTP Let's Encrypt
 Core scripts for SSTP server using Let's Encrypt certificates. Much more configuration needed as described on https://www.dasm.cz/clanek/mikrotik-sstp-server-s-let-s-encrypt-certifikatem
+
+### Tor / Torrent
+Filtering of Tor nodes based on their type and Torrent services, including bootstraps and DHT.
