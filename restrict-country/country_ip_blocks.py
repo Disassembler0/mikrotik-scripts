@@ -1,12 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import csv
-import io
-import ipaddress
-import os
-import requests
-import zipfile
+import csv, io, ipaddress, os, requests, zipfile
 
 DST_DIR = '/var/www/html/ipblocks'
 
