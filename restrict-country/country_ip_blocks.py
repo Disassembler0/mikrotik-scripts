@@ -9,13 +9,14 @@ import requests
 import zipfile
 
 DST_DIR = '/var/www/html/ipblocks'
+MAXMIND_LICENSE_KEY = 'YOUR_LICENSE_KEY'
 
 # Dictionary of (name, ipv4, ipv6) tuples with geoname_id as key
 countries = {'': ('unknown', [], [])}
 
 with requests.Session() as session:
     # Download the zipped CSVs
-    r = session.get('https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country-CSV.zip')
+    r = session.get('https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country-CSV&suffix=zip&license_key={}'.format(MAXMIND_LICENSE_KEY))
 
     # Unpack the zip in memory
     with zipfile.ZipFile(io.BytesIO(r.content)) as zip:
